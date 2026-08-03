@@ -34,9 +34,9 @@ export function getImageProxyUrl(): string | null {
 export function processImageUrl(url: string): string {
   if (!url) return '';
 
-  // 只要是豆瓣的图片，直接原样返回，绝对不要拼接任何图片代理！
+  // 针对豆瓣图片，直接强制走你自建的专属 Worker 代理！
   if (url.includes('doubanio.com')) {
-    return url;
+    return `https://img.020178.xyz/?url=${encodeURIComponent(url)}`;
   }
 
   return url;
