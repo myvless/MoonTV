@@ -34,20 +34,13 @@ export function getImageProxyUrl(): string | null {
 export function processImageUrl(url: string): string {
   if (!url) return '';
 
-  // 1. 如果是豆瓣的图片，直接返回原 URL，不要走图片代理！
+  // 只要是豆瓣的图片，直接原样返回，绝对不要拼接任何图片代理！
   if (url.includes('doubanio.com')) {
     return url;
   }
 
-  // 2. 其他图床继续按原有的代理逻辑处理...
-  const imageProxy = getRuntimeConfig().IMAGE_PROXY; // 或你的代理变量
-  if (imageProxy) {
-    return `${imageProxy}${encodeURIComponent(url)}`;
-  }
-
   return url;
 }
-
 export function cleanHtmlTags(text: string): string {
   if (!text) return '';
   return text
