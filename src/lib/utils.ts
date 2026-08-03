@@ -31,13 +31,21 @@ export function getImageProxyUrl(): string | null {
 /**
  * 处理图片 URL，如果设置了图片代理则使用代理
  */
-export function processImageUrl(originalUrl: string): string {
-  if (!originalUrl) return originalUrl;
+export function processImageUrl(url: string): string {
+  if (!url) return '';
 
-  const proxyUrl = getImageProxyUrl();
-  if (!proxyUrl) return originalUrl;
+  // 1. 如果是豆瓣的图片，直接返回原 URL，不要走图片代理！
+  if (url.includes('doubanio.com')) {
+    return url;
+  }
 
-  return `${proxyUrl}${encodeURIComponent(originalUrl)}`;
+  // 2. 其他图床继续按原有的代理逻辑处理...
+  const imageProxy = getRuntimeConfig().IMAGE_PROXY; // 或你的代理变量
+  if (imageProxy) {
+    return `${imageProxy}${encodeURIComponent(url)}`;
+  }
+
+  return url;
 }
 
 export function cleanHtmlTags(text: string): string {
