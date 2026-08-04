@@ -244,7 +244,7 @@ function HomeClient() {
                           <VideoCard
                             from='douban'
                             title={movie.title}
-                            poster={movie.poster}
+                            poster={processImageUrl(movie.poster)}
                             douban_id={movie.id}
                             rate={movie.rate}
                             year={movie.year}
@@ -292,7 +292,7 @@ function HomeClient() {
                           <VideoCard
                             from='douban'
                             title={show.title}
-                            poster={show.poster}
+                            poster={processImageUrl(show.poster)}
                             douban_id={show.id}
                             rate={show.rate}
                             year={show.year}
