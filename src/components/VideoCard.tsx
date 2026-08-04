@@ -281,7 +281,7 @@ export default function VideoCard({
           src={processImageUrl(actualPoster)}
           alt={actualTitle}
           fill
-          unoptimized={true}  {/* 👈 加上这一行，禁止 Next.js 服务端接管该图片请求 */}
+          unoptimized={true}
           className='object-cover'
           referrerPolicy='no-referrer'
           onLoadingComplete={() => setIsLoading(true)}
