@@ -31,15 +31,23 @@ export function getImageProxyUrl(): string | null {
 /**
  * 处理图片 URL，如果设置了图片代理则使用代理
  */
-export function processImageUrl(url: string): string {
+export function processImageUrl(url: string | undefined | null): string {
   if (!url) return '';
 
-  // 针对豆瓣图片，直接强制走你自建的专属 Worker 代理！
-  if (url.includes('doubanio.com')) {
-    return `https://img.020178.xyz/?url=${encodeURIComponent(url)}`;
+  const proxyPrefix = 'https://img.020178.xyz/?url=';
+
+  // 1. 如果已经是代理链接，直接返回，防止重复拼接导致死循环
+  if (url.startsWith(proxyPrefix)) {
+    return url;
   }
 
-  return url;
+  // 2. 如果是相对路径或 base64，不处理
+  if (url.startsWith('/') || url.startsWith('data:')) {
+    return url;
+  }
+
+  // 3. 正常拼接代理前缀
+  return `${proxyPrefix}${encodeURIComponent(url)}`;
 }
 export function cleanHtmlTags(text: string): string {
   if (!text) return '';
